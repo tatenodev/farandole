@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import satori from "satori";
+import Link from "next/link";
 import { ImageFactory } from "./components/ImageFactory";
 
 export default async function Home() {
@@ -21,7 +22,14 @@ export default async function Home() {
 
   return (
     <main>
-      <p>generate images</p>
+      <ul>
+        <li>
+          <Link href="/canvas">canvas</Link>
+        </li>
+        <li>
+          <Link href="/generate-image">generate-image</Link>
+        </li>
+      </ul>
       <ImageFactory />
       <div dangerouslySetInnerHTML={{ __html: await createSVG() }} />
     </main>
