@@ -42,8 +42,6 @@ export const GenerateImageCanvas = () => {
       <div ref={stageWrapRef}>
         <Stage width={width} height={height} ref={stageRef}>
           <Layer>
-            <Rect x={0} y={0} width={80} height={80} fill="red" />
-            <Rect x={width - 80} y={0} width={80} height={80} fill="red" />
             <Rect
               draggable
               x={orangeBoxPositionX / 2}
@@ -52,6 +50,8 @@ export const GenerateImageCanvas = () => {
               height={80}
               fill="orange"
             />
+            <Rect x={0} y={0} width={80} height={80} fill="red" />
+            <Rect x={width - 80} y={0} width={80} height={80} fill="red" />
             <Rect x={width - 80} y={height - 80} width={80} height={80} fill="red" />
             <Rect x={0} y={height - 80} width={80} height={80} fill="red" />
           </Layer>
