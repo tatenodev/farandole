@@ -3,6 +3,7 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import Konva from "konva";
 import { Stage, Layer, Rect } from "react-konva";
+import { CanvasText } from "./CanvasText";
 
 export const GenerateImageCanvas = () => {
   const stageWrapRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,7 @@ export const GenerateImageCanvas = () => {
     console.log(uri);
   };
 
+  // window幅監視
   useEffect(() => {
     const stageWrapElement = stageWrapRef.current;
     if (!stageWrapElement) return;
@@ -54,6 +56,7 @@ export const GenerateImageCanvas = () => {
             <Rect x={width - 80} y={0} width={80} height={80} fill="red" />
             <Rect x={width - 80} y={height - 80} width={80} height={80} fill="red" />
             <Rect x={0} y={height - 80} width={80} height={80} fill="red" />
+            <CanvasText stage={stageRef} />
           </Layer>
         </Stage>
       </div>
