@@ -1,6 +1,7 @@
 "use client";
 
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent, RefObject } from "react";
 
 import Konva from "konva";
 import { Stage } from "konva/lib/Stage";
@@ -15,6 +16,7 @@ export const CanvasText = ({ stage }: CanvasTextProps) => {
   const textRef = useRef<Konva.Text>(null);
   const inputTextRef = useRef<HTMLInputElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [canvasTextPosition, setCanvasTextPositionl] = useState({ x: 0, y: 0 });
   const [isSelected, setIsSelected] = useState(false);
   const [inputText, setInputText] = useState("draggableなテキスト&ダブルクリックでテキスト入力");
 
@@ -32,16 +34,20 @@ export const CanvasText = ({ stage }: CanvasTextProps) => {
     setPosition(areaPosition);
   };
 
-  const handleShow = (event: MouseEvent) => {
-    if (inputTextRef.current && !inputTextRef.current.contains(event.target as Node)) {
+  const removeTextArea = (event: MouseEvent | KeyboardEvent<HTMLInputElement>) => {
+    if (event instanceof MouseEvent && inputTextRef.current && !inputTextRef.current.contains(event.target as Node)) {
+      setIsSelected(false);
+      textRef.current?.show();
+    }
+    if ("key" in event && event.key === "Enter") {
       setIsSelected(false);
       textRef.current?.show();
     }
   };
 
   useEffect(() => {
-    window.addEventListener("mousedown", handleShow);
-    return () => window.removeEventListener("mousedown", handleShow);
+    window.addEventListener("mousedown", removeTextArea);
+    return () => window.removeEventListener("mousedown", removeTextArea);
   }, []);
 
   return (
@@ -61,10 +67,19 @@ export const CanvasText = ({ stage }: CanvasTextProps) => {
             placeholder="テキストの入力"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={removeTextArea}
           />
         </Html>
       )}
-      <Text draggable ref={textRef} text={inputText} onDblClick={handleDblClick} />
+      <Text
+        draggable
+        ref={textRef}
+        x={canvasTextPosition.x}
+        y={canvasTextPosition.y}
+        onDragEnd={(e) => setCanvasTextPositionl({ x: e.target.attrs.x, y: e.target.attrs.y })}
+        text={inputText}
+        onDblClick={handleDblClick}
+      />
     </>
   );
 };

@@ -51,6 +51,7 @@ export const GenerateImageCanvas = () => {
               width={80}
               height={80}
               fill="orange"
+              onDragEnd={(e) => {}}
             />
             <Rect x={0} y={0} width={80} height={80} fill="red" />
             <Rect x={width - 80} y={0} width={80} height={80} fill="red" />
