@@ -21,10 +21,20 @@ export const GenerateImageCanvas = () => {
   // const [image] = useImage("https://konvajs.org/assets/lion.png");
   const [image] = useImage(String(imageFile));
 
+  const downloadURI = (uri: string, name: string) => {
+    const link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleExport = (stageRef: MutableRefObject<Konva.Stage | null>) => {
     if (!stageRef.current) return;
     const uri = stageRef.current.toDataURL();
     console.log(uri);
+    downloadURI(uri, "download.png");
   };
 
   // window幅監視
@@ -61,7 +71,7 @@ export const GenerateImageCanvas = () => {
           };
         }}
       />
-      <button onClick={() => handleExport(stageRef)}>base64形式のデータをログに表示</button>
+      <button onClick={() => handleExport(stageRef)}>Download & base64形式のデータをログに表示</button>
       <div ref={stageWrapRef}>
         <Stage width={width} height={height} ref={stageRef}>
           <Layer>
